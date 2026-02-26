@@ -1,13 +1,14 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User 
 from django.contrib import messages 
 from .models import Member
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 import re
 
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -82,7 +83,8 @@ def register_member(request):
             )
             
             messages.success(request, "Registration successful! Please log in.")
-            return redirect("login")
+            login(request, user)
+            return redirect("dashboard")
             
         except Exception as e:
             messages.error(request, f"Registration failed: {str(e)}")
@@ -132,3 +134,37 @@ def login_view(request):
 		else:
 			return render(request, "login.html", {"error": "Invalid login credentials"})
 	return render(request, "login.html")
+
+
+
+@login_required
+def dashboard(request):
+    # Safer than .get() - returns 404 if member doesn't exist
+    member = get_object_or_404(Member, user=request.user)
+    return render(request, "dashboard.html", {"member": member})
+
+
+
+
+def logout_view(request):
+    """
+    Log out the user and redirect to homepage with success message.
+    """
+    if request.method == "POST":  # Best practice: logout via POST to prevent CSRF attacks
+        logout(request)
+        messages.success(request, "You have been successfully logged out. See you soon! 👋")
+        return redirect("index")  # Replace with your actual home URL name
+    return redirect("index")  # Fallback redirect if accessed via GET
+
+"""
+@login_required
+def dashboard(request):
+    member = Member.objects.get(user=request.user)
+
+    return render(request, "dashboard.html", {"member": member})
+"""
+def about(request):
+    return render(request, "about.html")
+
+def bog(request):
+    return render(request, "bog.html")
