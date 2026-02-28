@@ -1,4 +1,4 @@
-2from PIL import Image, ImageDraw, ImageFont, ImageFilter, ImageOps
+from PIL import Image, ImageDraw, ImageFont, ImageFilter, ImageOps
 from django.conf import settings
 import os
 from datetime import datetime
