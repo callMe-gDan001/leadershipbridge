@@ -1,4 +1,4 @@
-from PIL import Image, ImageDraw, ImageFont, ImageFilter, ImageOps
+2from PIL import Image, ImageDraw, ImageFont, ImageFilter, ImageOps
 from django.conf import settings
 import os
 from datetime import datetime
@@ -6,14 +6,6 @@ import textwrap
 
 
 
-
-
-
-# File: Main/utils.py
-from PIL import Image, ImageDraw, ImageFont, ImageFilter, ImageOps
-from django.conf import settings
-import os
-from datetime import datetime
 
 def generate_id_card(member):
     template_path = os.path.join(settings.BASE_DIR, 'templates/id_template.png')
@@ -32,7 +24,7 @@ def generate_id_card(member):
     small_font = load_font(15)
     tiny_font = load_font(12)
     
-    # ✅ Draw member info with proper positioning
+    # Draw member info with proper positioning
     # Full Name (with smart truncation)
     name = member.full_name.upper()
     if len(name) > 20:
@@ -142,7 +134,7 @@ def create_premium_3d_template(save_path):
             color = (r, g, b)
         draw.line([(0, y), (400, y)], fill=color)
     
-    # ✅ PROMINENT SECURITY PATTERN (Visible like real ID cards)
+    # PROMINENT SECURITY PATTERN (Visible like real ID cards)
     # Diagonal stripe pattern
     for i in range(-300, 700, 50):
         opacity = 60 if (i // 100) % 2 == 0 else 30
@@ -323,4 +315,3 @@ def darken_color(hex_color, percent):
 
 
 
-    
