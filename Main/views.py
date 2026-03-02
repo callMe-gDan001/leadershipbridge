@@ -168,3 +168,12 @@ def about(request):
 
 def bog(request):
     return render(request, "bog.html")
+
+def events(request):
+    return render(request, "events.html")
+
+def donate(request):
+    return render(request, "donate.html")
+
+def programs(request):
+    return render(request, "Programs.html")
